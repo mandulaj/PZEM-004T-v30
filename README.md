@@ -28,7 +28,7 @@ This module is an upgraded version of the PZEM-004T with frequency and power fac
   * Better, but not perfect mains isolation
 
 ### Example
-```Arduino
+```c++
 #include <PZEM004Tv30.h>
 
 PZEM004Tv30 pzem(&Serial3);
