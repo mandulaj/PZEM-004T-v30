@@ -22,7 +22,7 @@
 #endif
 
 // #define PZEM004_NO_SWSERIAL
-#if (not defined(PZEM004_NO_SWSERIAL)) && (defined(__AVR__) || defined(ESP8266))
+#if (not defined(PZEM004_NO_SWSERIAL)) && (defined(__AVR__) || defined(ESP8266) && (not defined(ESP32)))
 #define PZEM004_SOFTSERIAL
 #endif
 
@@ -37,7 +37,9 @@
 class PZEM004Tv30
 {
 public:
+#if defined(PZEM004_SOFTSERIAL)
     PZEM004Tv30(uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR);
+#endif
     PZEM004Tv30(HardwareSerial* port, uint8_t addr=PZEM_DEFAULT_ADDR);
     ~PZEM004Tv30();
 
