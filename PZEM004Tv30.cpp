@@ -57,6 +57,7 @@ void printBuf(uint8_t* buffer, uint16_t len){
  * @param transmitPin TX pin
  * @param addr Slave address of device
 */
+#if defined(PZEM004_SOFTSERIAL)
 PZEM004Tv30::PZEM004Tv30(uint8_t receivePin, uint8_t transmitPin, uint8_t addr)
 {
     SoftwareSerial *port = new SoftwareSerial(receivePin, transmitPin);
@@ -65,6 +66,7 @@ PZEM004Tv30::PZEM004Tv30(uint8_t receivePin, uint8_t transmitPin, uint8_t addr)
     this->_isSoft = true;
     init(addr);
 }
+#endif
 
 /*!
  * PZEM004Tv30::PZEM004Tv30
