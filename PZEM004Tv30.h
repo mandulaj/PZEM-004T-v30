@@ -108,7 +108,7 @@ private:
     bool updateValues();    // Get most up to date values from device registers and cache them
     uint16_t recieve(uint8_t *resp, uint16_t len); // Receive len bytes into a buffer
 
-    bool sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check=false); // Send 8 byte command
+    bool sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check=false, uint16_t slave_addr=0xFFFF); // Send 8 byte command
 
     void setCRC(uint8_t *buf, uint16_t len);           // Set the CRC for a buffer
     bool checkCRC(const uint8_t *buf, uint16_t len);   // Check CRC of buffer

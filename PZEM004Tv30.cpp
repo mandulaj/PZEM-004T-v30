@@ -220,11 +220,17 @@ float PZEM004Tv30::pf()
  *
  * @return success
 */
-bool PZEM004Tv30::sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check){
+bool PZEM004Tv30::sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check, uint16_t slave_addr){
     uint8_t sendBuffer[8]; // Send buffer
     uint8_t respBuffer[8]; // Response buffer (only used when check is true)
 
-    sendBuffer[0] = _addr;                   // Set slave address
+    if((slave_addr == 0xFFFF) ||
+       (slave_addr < 0x01) ||
+       (slave_addr > 0xF7)){
+        slave_addr = _addr;
+    }
+
+    sendBuffer[0] = slave_addr;                   // Set slave address
     sendBuffer[1] = cmd;                     // Set command
 
     sendBuffer[2] = (rAddr >> 8) & 0xFF;     // Set high byte of register address
@@ -562,8 +568,6 @@ static const uint16_t crcTable[] PROGMEM = {
 */
 uint16_t PZEM004Tv30::CRC16(const uint8_t *data, uint16_t len)
 {
-
-
     uint8_t nTemp; // CRC table index
     uint16_t crc = 0xFFFF; // Default value
 
