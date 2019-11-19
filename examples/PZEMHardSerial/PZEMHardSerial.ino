@@ -1,5 +1,8 @@
 #include <PZEM004Tv30.h>
 
+/* Hardware Serial3 is only available on certain boards.
+ * For example the Arduino MEGA 2560
+*/
 PZEM004Tv30 pzem(&Serial3);
 
 void setup() {
