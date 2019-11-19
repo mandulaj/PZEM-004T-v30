@@ -82,6 +82,8 @@ public:
 
     bool resetEnergy();
 
+    void search();
+
 private:
 
     Stream* _serial; // Serial interface

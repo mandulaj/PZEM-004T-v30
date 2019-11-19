@@ -579,3 +579,28 @@ uint16_t PZEM004Tv30::CRC16(const uint8_t *data, uint16_t len)
     }
     return crc;
 }
+
+/*!
+ * PZEM004Tv30::search
+ *
+ * Search for available devices. This should be used only for debugging!
+ * Prints any found device addresses on the bus.
+ * Can be disabled by defining PZEM004T_DISABLE_SEARCH
+*/
+void PZEM004Tv30::search(){
+#if ( not defined(PZEM004T_DISABLE_SEARCH))
+    static uint8_t response[7];
+    for(uint16_t addr = 0x01; addr <= 0xF8; addr++){
+        //Serial.println(addr);
+        sendCmd8(CMD_RIR, 0x00, 0x01, false, addr);
+
+        if(recieve(response, 7) != 7){ // Something went wrong
+            continue;
+        } else {
+
+            Serial.print("Device on addr: ");
+            Serial.print(addr);
+        }
+    }
+#endif
+}
