@@ -1,5 +1,9 @@
 #include <PZEM004Tv30.h>
 
+/* Use software serial for the PZEM
+ * Pin 11 Rx (Connects to the Tx pin on the PZEM)
+ * Pin 12 Tx (Connects to the Rx pin on the PZEM)
+*/
 PZEM004Tv30 pzem(11, 12);
 
 void setup() {
