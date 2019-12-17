@@ -3,7 +3,7 @@ Arduino communication library for Peacefair PZEM-004T-10A and PZEM-004T-100A v3.
 
 ***
 
-This module is an upgraded version of the PZEM-004T with frequency and power factor measurement features available at the usual places. It communicates using a TTL interface over a Modbus-RTU like communication protocol but is incompatible with the older [@olehs](https://github.com/olehs) library found here: [https://github.com/olehs/PZEM004T](https://github.com/olehs/PZEM004T). I would like to thank [@olehs](https://github.com/olehs) for the great library which inspired me to write this one.
+This module is an upgraded version of the PZEM-004T with frequency and power factor measurement features, available at the usual places. It communicates using a TTL interface over a Modbus-RTU like communication protocol but is incompatible with the older [@olehs](https://github.com/olehs) library found here: [https://github.com/olehs/PZEM004T](https://github.com/olehs/PZEM004T). I would like to thank [@olehs](https://github.com/olehs) for the great library which inspired me to write this one.
 
 
 ### Manufacturer (optimistic) specifications
@@ -77,6 +77,8 @@ void loop() {
   delay(1000);
 }
 ```
+# Installation instructions
+You should be able to install the library from the Library Manager in the Arduino IDE. You can also download the ZIP of this repository and install it manually. A guide on how to do that is over here: [https://www.arduino.cc/en/guide/libraries](https://www.arduino.cc/en/guide/libraries) 
 
 ***
 Thank you to [@olehs](https://github.com/olehs) for inspiring this library.
