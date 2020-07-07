@@ -283,6 +283,32 @@ bool PZEM004Tv30::setAddress(uint8_t addr)
     return true;
 }
 
+/*! 
+ * PZEM004Tv30::readAddress()
+ * 
+ * Read address from the device memory
+ * @return success
+*/
+bool PZEM004Tv30::readAddress()
+{
+    static uint8_t response[7];
+
+    // Read 1 register
+    if (!sendCmd8(CMD_RHR, WREG_ADDR, 0x01, false))
+        return false;
+
+
+    if(recieve(response, 7) != 7){ // Something went wrong
+        return false;
+    }
+
+    // Update the current address
+    _addr = ((uint32_t)response[3] << 8 | // Raw address
+                              (uint32_t)response[4]);
+
+    return true;
+}
+
 /*!
  * PZEM004Tv30::getAddress
  *
