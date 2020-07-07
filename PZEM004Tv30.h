@@ -76,6 +76,7 @@ public:
 
     bool setAddress(uint8_t addr);
     uint8_t getAddress();
+    bool readAddress();
 
     bool setPowerAlarm(uint16_t watts);
     bool getPowerAlarm();
