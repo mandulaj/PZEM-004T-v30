@@ -106,6 +106,25 @@ PZEM004Tv30::PZEM004Tv30(HardwareSerial* port, uint8_t addr)
     init(addr);
 }
 
+#ifdef ESP32
+/*!
+ * PZEM004Tv30::PZEM004Tv30
+ *
+ * Hardware serial constructor with custom pin mapping (esp32)
+ *
+ * @param port Hardware serial to use
+ * @param rxpin gpio pin to map rx
+ * @param txpin gpio pin to map tx
+ * @param addr Slave address of device
+ */
+PZEM004Tv30::PZEM004Tv30(HardwareSerial* port, uint8_t rxpin, uint8_t txpin, uint8_t addr){
+    port->begin(PZEM_BAUD_RATE, SERIAL_8N1, rxpin, txpin);
+    this->_serial = port;
+    this->_isSoft = false;
+    init(addr);
+}
+#endif
+
 /*!
  * PZEM004Tv30::~PZEM004Tv30
  *

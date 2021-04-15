@@ -63,6 +63,11 @@ public:
     PZEM004Tv30(uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR);
 #endif
     PZEM004Tv30(HardwareSerial* port, uint8_t addr=PZEM_DEFAULT_ADDR);
+
+#ifdef ESP32
+    PZEM004Tv30(HardwareSerial* port, uint8_t rxpin, uint8_t txpin, uint8_t addr=PZEM_DEFAULT_ADDR);
+#endif
+
     ~PZEM004Tv30();
 
 
