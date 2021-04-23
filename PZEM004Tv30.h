@@ -91,6 +91,11 @@ public:
 
 private:
 
+    #ifdef PZEM004_SOFTSERIAL    
+	// Stream has no virtual dtor, so keep the pointer
+	SoftwareSerial *swserial = nullptr;
+    #endif
+
     Stream* _serial; // Serial interface
     bool _isSoft;    // Is serial interface software
 
