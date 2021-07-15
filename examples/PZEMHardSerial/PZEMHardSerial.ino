@@ -1,3 +1,17 @@
+/*
+Copyright (c) 2021 Jakub Mandula
+
+Example of using one PZEM module with Hardware Serial interface.
+================================================================
+
+If desired, a HardwareSerial handle can be passed to the constructor
+which will then be used for the communication with the module.
+
+Note that ESP32 HardwareSerial must also be provided with the RX and TX
+pins.
+
+*/
+
 #include <PZEM004Tv30.h>
 
 /* Hardware Serial2 is only available on certain boards.
@@ -8,7 +22,6 @@ PZEM004Tv30 pzem(&Serial2, 16, 17);
 #else
 PZEM004Tv30 pzem(&Serial2);
 #endif
-
 
 void setup() {
   Serial.begin(115200);
