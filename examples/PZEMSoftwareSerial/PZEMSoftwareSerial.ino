@@ -1,3 +1,14 @@
+/*
+Copyright (c) 2021 Jakub Mandula
+
+Example of using one PZEM module with Software Serial interface.
+================================================================
+
+If only RX and TX pins are passed to the constructor, software 
+serial interface will be used for communication with the module.
+
+*/
+
 #include <PZEM004Tv30.h>
 
 /* Use software serial for the PZEM
@@ -11,6 +22,10 @@ void setup() {
 }
 
 void loop() {
+         
+    Serial.print("Custom Address:");
+    Serial.println(pzem.readAddress(), HEX);
+
     // Read the data from the sensor
     float voltage = pzem.voltage();
     float current = pzem.current();
