@@ -10,7 +10,7 @@ The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you
 ## Main features
  * Measures Voltage, Current, Power, Energy, **Power Factor** and **Frequency** (New in Version 3.0)
  * 247 unique programmable slave addresses
-    * Enables multiple slaves to use the same Serial interface
+    * Enables multiple slaves to use the same Serial interface [PZEM MulitDevice Demo](examples/PZEMMultiDevice/PZEMMultiDevice.ino)
  * Internal Energy counter up to 9999.99kWh
 
 ## Other features
@@ -45,16 +45,17 @@ This module is an upgraded version of the PZEM-004T with frequency and power fac
 
 ## Compatibility
 
-| MCU               | Hardware Serial  | Software Serial  | Not Tested | Examples           | Notes                 |
-|-------------------|:----------------:|:----------------:|:----------:|--------------------|-----------------------|
-|ATmega168 @ 8MHz   |                  |                  | X          |                    |                       | 
-|ATmega168 @ 16MHz  |                  |                  | X          | [HardwareSerial][] [SoftwareSerial][] |                       | 
-|ATmega328 @ 8MHz   |                  |                  | X          |                    |                       | 
-|ATmega328 @ 18MHz  |                  |                  | X          | [HardwareSerial][] [SoftwareSerial][] |                       | 
-|ATmega2560 @ 8MHz  |                  |                  | X          |                    |                       | 
-|ATmega2560 @ 16MHz |:heavy_check_mark:|:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                       | 
-|ESP8266            |                  |                  | X          |                    |                       | 
-|ESP32              |:heavy_check_mark:|Not needed        |            | [HardwareSerial][] |                       | 
+| MCU               | Hardware Serial    | Software Serial  | Not Tested | Examples                              | Notes                                                                          |
+|-------------------|:------------------:|:----------------:|:----------:|---------------------------------------|--------------------------------------------------------------------------------|
+|ATmega168 @ 8MHz   |                    |                  | X          |                                       |                                                                                | 
+|ATmega168 @ 16MHz  |                    |                  | X          | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ATmega328 @ 8MHz   |                    |                  | X          |                                       |                                                                                | 
+|ATmega328 @ 16MHz  |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ATmega2560 @ 8MHz  |                    |                  | X          |                                       |                                                                                | 
+|ATmega2560 @ 16MHz |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ESP8266            |(:white_check_mark:)|                  |            |                                       | HW Serial conflicts with output Serial                                         | 
+|ESP32              |:heavy_check_mark:  | :x:              |            | [HardwareSerial][]                    | SW Serial not really needed as ESP32 has 3 HW serials with configurable pins   | 
+|STM32 Blue Pill    |                    |                  | X          |                                       |                                                                                | 
 
 [HardwareSerial]: examples/PZEMHardSerial/PZEMHardSerial.ino
 [SoftwareSerial]: examples/PZEMSoftwareSerial/PZEMSoftwareSerial.ino
