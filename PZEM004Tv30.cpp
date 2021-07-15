@@ -51,6 +51,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define PZEM_BAUD_RATE 9600
 
+#define INVALID_ADDRESS 0x00
+
 extern HardwareSerial Serial;
 
 
@@ -299,24 +301,28 @@ bool PZEM004Tv30::setAddress(uint8_t addr)
  * Read address from the device memory
  * @return success
 */
-bool PZEM004Tv30::readAddress()
+uint8_t PZEM004Tv30::readAddress(bool update = false)
 {
     static uint8_t response[7];
-
+    uint8_t addr = 0;
     // Read 1 register
     if (!sendCmd8(CMD_RHR, WREG_ADDR, 0x01, false))
-        return false;
+        return INVALID_ADDRESS;
 
 
     if(recieve(response, 7) != 7){ // Something went wrong
-        return false;
+        return INVALID_ADDRESS;
     }
 
-    // Update the current address
-    _addr = ((uint32_t)response[3] << 8 | // Raw address
+    // Get the current address
+    addr = ((uint32_t)response[3] << 8 | // Raw address
                               (uint32_t)response[4]);
 
-    return true;
+    // Update the internal address if desired
+    if(update){
+        _addr = addr;
+    }
+    return addr;
 }
 
 /*!

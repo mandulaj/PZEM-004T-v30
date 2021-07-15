@@ -85,7 +85,8 @@ public:
 
     bool setAddress(uint8_t addr);
     uint8_t getAddress();
-    bool readAddress();
+    uint8_t readAddress(bool update = false);
+
 
     bool setPowerAlarm(uint16_t watts);
     bool getPowerAlarm();
