@@ -53,24 +53,6 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define INVALID_ADDRESS 0x00
 
-extern HardwareSerial Serial;
-
-
-
-#define DEBUG
-
-// Debugging function;
-void printBuf(uint8_t* buffer, uint16_t len){
-#ifdef DEBUG
-    for(uint16_t i = 0; i < len; i++){
-        char temp[6];
-        sprintf(temp, "%.2x ", buffer[i]);
-        Serial.print(temp);
-
-    }
-    Serial.println();
-#endif
-}
 
 /*!
  * PZEM004Tv30::PZEM004Tv30
@@ -394,6 +376,8 @@ void PZEM004Tv30::init(uint8_t addr){
     // Set initial lastRed time so that we read right away
     _lastRead = 0;
     _lastRead -= UPDATE_TIME;
+
+    _isConnected = false; // We have not received anything yet...
 }
 
 
@@ -413,6 +397,9 @@ bool PZEM004Tv30::updateValues()
     if(_lastRead + UPDATE_TIME > millis()){
         return true;
     }
+
+    DEBUGLN("Updating Values");
+
 
     // Read 10 registers starting at 0x00 (no check)
     sendCmd8(CMD_RIR, 0x00, 0x0A, false);
@@ -515,9 +502,11 @@ uint16_t PZEM004Tv30::recieve(uint8_t *resp, uint16_t len)
 
     // Check CRC with the number of bytes read
     if(!checkCRC(resp, index)){
+        _isConnected = false; // We are no longer connected
         return 0;
     }
 
+     _isConnected = true; // We received a reply 
     return index;
 }
 
@@ -643,7 +632,7 @@ void PZEM004Tv30::search(){
         } else {
 
             Serial.print("Device on addr: ");
-            Serial.print(addr);
+            Serial.println(addr);
         }
     }
 #endif
