@@ -69,47 +69,41 @@ void loop() {
         Serial.println(pzems[i].getAddress(), HEX);
         Serial.println("===================");
 
+
+
+        // Read the data from the sensor
         float voltage = pzems[i].voltage();
-        if(!isnan(voltage)){
-            Serial.print("Voltage: "); Serial.print(voltage); Serial.println("V");
-        } else {
-            Serial.println("Error reading voltage");
-        }
-
         float current = pzems[i].current();
-        if(!isnan(current)){
-            Serial.print("Current: "); Serial.print(current); Serial.println("A");
-        } else {
-            Serial.println("Error reading current");
-        }
-
         float power = pzems[i].power();
-        if(!isnan(power)){
-            Serial.print("Power: "); Serial.print(power); Serial.println("W");
-        } else {
-            Serial.println("Error reading power");
-        }
-
         float energy = pzems[i].energy();
-        if(!isnan(energy)){
-            Serial.print("Energy: "); Serial.print(energy,3); Serial.println("kWh");
-        } else {
-            Serial.println("Error reading energy");
-        }
-
         float frequency = pzems[i].frequency();
-        if(!isnan(frequency)){
-            Serial.print("Frequency: "); Serial.print(frequency, 1); Serial.println("Hz");
-        } else {
+        float pf = pzems[i].pf();
+
+
+        // Check if the data is valid
+        if(isnan(voltage)){
+            Serial.println("Error reading voltage");
+        } else if (isnan(current)) {
+            Serial.println("Error reading current");
+        } else if (isnan(power)) {
+            Serial.println("Error reading power");
+        } else if (isnan(energy)) {
+            Serial.println("Error reading energy");
+        } else if (isnan(frequency)) {
             Serial.println("Error reading frequency");
+        } else if (isnan(pf)) {
+            Serial.println("Error reading power factor");
+        } else {
+            // Print the values to the Serial console
+            Serial.print("Voltage: ");      Serial.print(voltage);      Serial.println("V");
+            Serial.print("Current: ");      Serial.print(current);      Serial.println("A");
+            Serial.print("Power: ");        Serial.print(power);        Serial.println("W");
+            Serial.print("Energy: ");       Serial.print(energy,3);     Serial.println("kWh");
+            Serial.print("Frequency: ");    Serial.print(frequency, 1); Serial.println("Hz");
+            Serial.print("PF: ");           Serial.println(pf);
+
         }
 
-        float pf = pzems[i].pf();
-        if(!isnan(pf)){
-            Serial.print("PF: "); Serial.println(pf);
-        } else {
-            Serial.println("Error reading power factor");
-        }
         Serial.println("-------------------");
         Serial.println();
     }
