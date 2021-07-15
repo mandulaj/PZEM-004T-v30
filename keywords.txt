@@ -16,9 +16,11 @@ frequency KEYWORD2
 pf KEYWORD2
 getAddress KEYWORD2
 setAddress	KEYWORD2
+readAddress KEYWORD2
 setPowerAlarm	KEYWORD2
 getPowerAlarm	KEYWORD2
 resetEnergy KEYWORD2
+search KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
