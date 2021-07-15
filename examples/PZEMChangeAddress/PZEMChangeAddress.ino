@@ -48,8 +48,7 @@ void loop() {
 
     // Print out current custom address
     Serial.print("Previous address:   0x");
-    pzem.readAddress();
-    Serial.println(pzem.getAddress(), HEX);
+    Serial.println(pzem.readAddress(false), HEX);
 
     // Set the custom address
     Serial.print("Setting address to: 0x");
@@ -61,8 +60,7 @@ void loop() {
     } else {
       // Print out the new custom address
       Serial.print("Current address:    0x");
-      pzem.readAddress();
-      Serial.println(pzem.getAddress(), HEX);
+      Serial.println(pzem.readAddress(), HEX);
       Serial.println();
     }
 
