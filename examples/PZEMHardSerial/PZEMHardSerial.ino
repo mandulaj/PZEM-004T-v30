@@ -28,6 +28,10 @@ void setup() {
 }
 
 void loop() {
+        
+    Serial.print("Custom Address:");
+    Serial.println(pzem.readAddress(false), HEX);
+
     float voltage = pzem.voltage();
     if(!isnan(voltage)){
         Serial.print("Voltage: "); Serial.print(voltage); Serial.println("V");
