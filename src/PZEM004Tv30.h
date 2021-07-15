@@ -102,6 +102,8 @@ private:
 
     uint8_t _addr;   // Device address
 
+    bool _isConnected; // Flag set on successful communication
+
     struct {
         float voltage;
         float current;
@@ -128,5 +130,46 @@ private:
 
     uint16_t CRC16(const uint8_t *data, uint16_t len); // Calculate CRC of buffer
 };
+
+
+
+// Define for setting debug level verbosity
+//#define PZEM004TV30_DEBUG 0
+
+#ifdef PZEM004TV30_DEBUG
+
+// For configuring custom serial debug interface, default: Serial
+#ifndef PZEM004TV30_DEBUG_SERIAL
+#define PZEM004TV30_DEBUG_SERIAL Serial
+#endif
+
+
+// For debugging
+extern HardwareSerial PZEM004TV30_DEBUG_SERIAL;
+
+
+// Debugging function;
+void printBuf(uint8_t* buffer, uint16_t len) {
+    for(uint16_t i = 0; i < len; i++){
+        char temp[6];
+        sprintf(temp, "%.2x ", buffer[i]);
+        PZEM004TV30_DEBUG_SERIAL.print(temp);
+
+    }
+    PZEM004TV30_DEBUG_SERIAL.println();
+}
+    #define DEBUG(...) PZEM004TV30_DEBUG_SERIAL.print(__VA_ARGS__)
+    #define DEBUGLN(...) PZEM004TV30_DEBUG_SERIAL.println(__VA_ARGS__)
+    #define DEBUGBUF(buf, len) printBuf(buf, len)
+
+
+#else
+    // Debugging mode off, disable the macros
+    #define DEBUG(...)
+    #define DEBUGLN(...)
+    #define DEBUGBUF(buf, len)
+#endif
+
+
 
 #endif // PZEM004T_H
