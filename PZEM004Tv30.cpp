@@ -126,8 +126,10 @@ PZEM004Tv30::PZEM004Tv30(HardwareSerial* port, uint8_t addr)
 */
 PZEM004Tv30::~PZEM004Tv30()
 {
+#if defined(PZEM004_SOFTSERIAL)
     if(_isSoft)
         delete (SoftwareSerial*)(this->_serial);
+#endif
 }
 
 /*!
