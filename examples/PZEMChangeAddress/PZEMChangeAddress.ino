@@ -1,6 +1,13 @@
 #include <PZEM004Tv30.h>
 
-PZEM004Tv30 pzem(&Serial3);
+/* Hardware Serial2 is only available on certain boards.
+ * For example the Arduino MEGA 2560
+*/
+#if defined(ESP32)
+PZEM004Tv30 pzem(&Serial2, 16, 17);
+#else
+PZEM004Tv30 pzem(&Serial2);
+#endif
 
 void setup() {
   Serial.begin(115200);
