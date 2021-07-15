@@ -33,7 +33,7 @@ void setup() {
 void loop() {
         
     Serial.print("Custom Address:");
-    Serial.println(pzem.readAddress(false), HEX);
+    Serial.println(pzem.readAddress(), HEX);
 
     // Read the data from the sensor
     float voltage = pzem.voltage();
