@@ -69,6 +69,8 @@ public:
 #else
     PZEM004Tv30(HardwareSerial* port, uint8_t addr=PZEM_DEFAULT_ADDR);
 #endif
+    // Empty constructor for creating arrays
+    PZEM004Tv30(){};
 
     ~PZEM004Tv30();
 
