@@ -4,7 +4,7 @@ Arduino library for Peacefair **PZEM-004T-10A** and [**PZEM-004T-100A v3.0**](ht
 
 [![GitHub issues](https://img.shields.io/github/issues/mandulaj/PZEM-004T-v30)](https://github.com/avaldebe/mandulaj/PZEM-004T-v30)
 [![GitHub license](https://img.shields.io/github/license/mandulaj/PZEM-004T-v30)](https://github.com/mandulaj/PZEM-004T-v30/blob/master/LICENSE)
-[![PlatformIO Build](https://github.com/mandulaj/PZEM-004T-v30/actions/workflows/platformio_build.yml/badge.svg?branch=rel1.1)](https://github.com/mandulaj/PZEM-004T-v30/actions/workflows/platformio_build.yml)
+[![PlatformIO Build](https://github.com/mandulaj/PZEM-004T-v30/actions/workflows/platformio_build.yml/badge.svg)](https://github.com/mandulaj/PZEM-004T-v30/actions/workflows/platformio_build.yml)
 
 
 The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you can find the library [Here](https://github.com/olehs/PZEM004T) 
