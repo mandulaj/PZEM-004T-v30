@@ -4,15 +4,25 @@
     "keywords": "peacefair, pzem, powermeter, v3",
     "description": "Enables communication to Peacefair PZEM-004T v3.0 Power and Energy monitor",
     "url": "https://github.com/mandulaj/PZEM-004T-v30",
+    "license": "MIT",
     "authors": [
         {
-            "name": "Jakub Mandula"
+            "name": "Jakub Mandula",
+            "url": "https://github.com/mandulaj"
         }
     ],
     "repository": {
         "type": "git",
         "url": "https://github.com/mandulaj/PZEM-004T-v30"
     },
-    "platforms": "*",
-    "version": "1.1.0"
+    "platforms": "atmelavr, ststm32, espressif8266, espressif32",
+    "version": "1.1.0",
+    "export": {
+        "include": [
+            "README.md",
+            "LICENSE",
+            "src/*",
+            "examples/*"
+        ]
+    }
 }

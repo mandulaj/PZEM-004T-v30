@@ -1,0 +1,30 @@
+language: python
+python:
+  - "3.9"
+
+sudo: false
+
+cache:
+    directories:
+        - "~/.platformio"
+        - $HOME/.cache/pip
+
+env:
+    - PLATFORMIO_CI_SRC=examples/PZEMHardSerial
+    - PLATFORMIO_CI_SRC=examples/PZEMSoftwareSerial
+    - PLATFORMIO_CI_SRC=examples/PZEMChangeAddress
+    - PLATFORMIO_CI_SRC=examples/PZEMMultiDevice
+
+install:
+    - pip install -U platformio
+    - pio update
+
+    #
+    # Libraries from PlatformIO Library Registry:
+    #
+    # https://platformio.org/lib/show/416/TinyGPS
+    # https://platformio.org/lib/show/417/SPI4Teensy3
+    #- pio lib -g install 416 417
+
+script:
+    - pio ci -l ./ -c $PLATFORMIO_CI_SRC/platformio.ini
