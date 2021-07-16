@@ -205,7 +205,7 @@ float PZEM004Tv30::energy()
 }
 
 /*!
- * PZEM004Tv30::frequeny
+ * PZEM004Tv30::frequency
  *
  * Get current line frequency in Hz
  *
@@ -216,7 +216,7 @@ float PZEM004Tv30::frequency()
     if(!updateValues()) // Update vales if necessary
         return NAN; // Update did not work, return NAN
 
-    return _currentValues.frequeny;
+    return _currentValues.frequency;
 }
 
 /*!
@@ -270,7 +270,7 @@ bool PZEM004Tv30::sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check
     _serial->write(sendBuffer, 8); // send frame
 
     if(check) {
-        if(!recieve(respBuffer, 8)){ // if check enabled, read the response
+        if(!receive(respBuffer, 8)){ // if check enabled, read the response
             return false;
         }
 
@@ -324,7 +324,7 @@ uint8_t PZEM004Tv30::readAddress(bool update)
         return INVALID_ADDRESS;
 
 
-    if(recieve(response, 7) != 7){ // Something went wrong
+    if(receive(response, 7) != 7){ // Something went wrong
         return INVALID_ADDRESS;
     }
 
@@ -438,7 +438,7 @@ bool PZEM004Tv30::updateValues()
     sendCmd8(CMD_RIR, 0x00, 0x0A, false);
 
 
-    if(recieve(response, 25) != 25){ // Something went wrong
+    if(receive(response, 25) != 25){ // Something went wrong
         return false;
     }
 
@@ -463,7 +463,7 @@ bool PZEM004Tv30::updateValues()
                               (uint32_t)response[15] << 24 |
                               (uint32_t)response[16] << 16) / 1000.0;
 
-    _currentValues.frequeny =((uint32_t)response[17] << 8 | // Raw Frequency in 0.1Hz
+    _currentValues.frequency=((uint32_t)response[17] << 8 | // Raw Frequency in 0.1Hz
                               (uint32_t)response[18]) / 10.0;
 
     _currentValues.pf =      ((uint32_t)response[19] << 8 | // Raw pf in 0.01
@@ -494,7 +494,7 @@ bool PZEM004Tv30::resetEnergy(){
     setCRC(buffer, 4);
     _serial->write(buffer, 4);
 
-    uint16_t length = recieve(reply, 5);
+    uint16_t length = receive(reply, 5);
 
     if(length == 0 || length == 5){
         return false;
@@ -504,7 +504,7 @@ bool PZEM004Tv30::resetEnergy(){
 }
 
 /*!
- * PZEM004Tv30::recieve
+ * PZEM004Tv30::receive
  *
  * Receive data from serial with buffer limit and timeout
  *
@@ -513,7 +513,7 @@ bool PZEM004Tv30::resetEnergy(){
  *
  * @return number of bytes read
 */
-uint16_t PZEM004Tv30::recieve(uint8_t *resp, uint16_t len)
+uint16_t PZEM004Tv30::receive(uint8_t *resp, uint16_t len)
 {
       //* This has to only be enabled for Software serial
     #if (defined(PZEM004_SOFTSERIAL) && (defined(__AVR__)) || defined(ESP8266))
@@ -660,7 +660,7 @@ void PZEM004Tv30::search(){
         //Serial.println(addr);
         sendCmd8(CMD_RIR, 0x00, 0x01, false, addr);
 
-        if(recieve(response, 7) != 7){ // Something went wrong
+        if(receive(response, 7) != 7){ // Something went wrong
             continue;
         } else {
 

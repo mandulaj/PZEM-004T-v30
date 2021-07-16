@@ -134,7 +134,7 @@ private:
         float current;
         float power;
         float energy;
-        float frequeny;
+        float frequency;
         float pf;
         uint16_t alarms;
     }  _currentValues; // Measured values
@@ -146,7 +146,7 @@ private:
     void init(Stream* port, bool isSoft, uint8_t addr); // Init common to all constructors
 
     bool updateValues();    // Get most up to date values from device registers and cache them
-    uint16_t recieve(uint8_t *resp, uint16_t len); // Receive len bytes into a buffer
+    uint16_t receive(uint8_t *resp, uint16_t len); // Receive len bytes into a buffer
 
     bool sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check=false, uint16_t slave_addr=0xFFFF); // Send 8 byte command
 
