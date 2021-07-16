@@ -20,36 +20,62 @@ Otherwise all connected modules will receive the same custom address.
 
 #include <PZEM004Tv30.h>
 
+
+#if !defined(PZEM_RX_PIN) && !defined(PZEM_TX_PIN)
+#define PZEM_RX_PIN 16
+#define PZEM_TX_PIN 17
+#endif
+
+#if !defined(PZEM_SERIAL)
+#define PZEM_SERIAL Serial2
+#endif
+
 /* Hardware Serial2 is only available on certain boards.
  * For example the Arduino MEGA 2560
 */
-#if defined(ESP32)
+#if defined(USE_SOFTWARE_SERIAL)
+#include <SoftwareSerial.h>
+/*************************
+ *  Use SoftwareSerial for communication
+ * ---------------------
+ * 
+ * The ESP32 platform does not support the SoftwareSerial as of now 
+ * Here we initialize the PZEM on SoftwareSerial with RX/TX pins PZEM_RX_PIN and PZEM_TX_PIN
+ */
+SoftwareSerial pzemSWSerial(PZEM_RX_PIN, PZEM_TX_PIN);
+PZEM004Tv30 pzem(pzemSWSerial);
+
+#elif defined(ESP32)
 /*************************
  *  ESP32 initialization
  * ---------------------
  * 
  * The ESP32 HW Serial interface can be routed to any GPIO pin 
- * Here we initialize the PZEM on Serial2 with RX/TX pins 16 and 17
+ * Here we initialize the PZEM on PZEM_SERIAL with RX/TX pins PZEM_RX_PIN and PZEM_TX_PIN
  */
-PZEM004Tv30 pzem(Serial2, 16, 17);
+PZEM004Tv30 pzem(PZEM_SERIAL, PZEM_RX_PIN, PZEM_TX_PIN);
+
 #else
 /*************************
- *  Arduino initialization
+ *  Arduino/ESP8266 initialization
  * ---------------------
  * 
  * Not all Arduino boards come with multiple HW Serial ports.
  * Serial2 is for example available on the Arduino MEGA 2560 but not Arduino Uno!
  * The ESP32 HW Serial interface can be routed to any GPIO pin 
- * Here we initialize the PZEM on Serial2 with default pins
+ * Here we initialize the PZEM on PZEM_SERIAL with default pins
  */
-PZEM004Tv30 pzem(Serial2);
+PZEM004Tv30 pzem(PZEM_SERIAL);
+
 #endif
 
 /*******************************************
  * Set your address over here..
  * The address can be between 0x01 and 0xF7
  *******************************************/
+#if !defined(SET_ADDRESS)
 #define SET_ADDRESS 0x55
+#endif
 
 // Set to true in order to increment the address every iteration
 #define INCREMENT false

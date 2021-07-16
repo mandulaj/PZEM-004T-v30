@@ -39,6 +39,16 @@ pzems[1].pf();
 
 #include <PZEM004Tv30.h>
 
+
+#if !defined(PZEM_RX_PIN) && !defined(PZEM_TX_PIN)
+#define PZEM_RX_PIN 16
+#define PZEM_TX_PIN 17
+#endif
+
+#if !defined(PZEM_SERIAL)
+#define PZEM_SERIAL Serial2
+#endif
+
 #define NUM_PZEMS 2
 
 PZEM004Tv30 pzems[NUM_PZEMS];
@@ -58,10 +68,7 @@ PZEM004Tv30 pzems[NUM_PZEMS];
 
 #include <SoftwareSerial.h>
 
-#define RX_PIN 12
-#define TX_PIN 13
-
-    SoftwareSerial pzemSWSerial(RX_PIN, TX_PIN);
+SoftwareSerial pzemSWSerial(PZEM_RX_PIN, PZEM_TX_PIN);
 #endif
 
 void setup() {
@@ -76,14 +83,14 @@ void setup() {
         pzems[i] = PZEM004Tv30(pzemSWSerial, 0x10 + i);
 #elif defined(ESP32)
         // Initialize the PZEMs with Hardware Serial2 on RX/TX pins 16 and 17
-        pzems[i] = PZEM004Tv30(Serial2, 16, 17, 0x10 + i);
+        pzems[i] = PZEM004Tv30(PZEM_SERIAL, PZEM_RX_PIN, PZEM_TX_PIN, 0x10 + i);
 #else
         // Initialize the PZEMs with Hardware Serial2 on the default pins
 
         /* Hardware Serial2 is only available on certain boards.
         *  For example the Arduino MEGA 2560
         */
-        pzems[i] = PZEM004Tv30(Serial2, 0x10 + i);
+        pzems[i] = PZEM004Tv30(PZEM_SERIAL, 0x10 + i);
 #endif
     }
 }
