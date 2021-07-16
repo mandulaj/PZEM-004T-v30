@@ -4,6 +4,9 @@ Arduino library for Peacefair **PZEM-004T-10A** and [**PZEM-004T-100A v3.0**](ht
 
 [![GitHub issues](https://img.shields.io/github/issues/mandulaj/PZEM-004T-v30)](https://github.com/avaldebe/mandulaj/PZEM-004T-v30)
 [![GitHub license](https://img.shields.io/github/license/mandulaj/PZEM-004T-v30)](https://github.com/mandulaj/PZEM-004T-v30/blob/master/LICENSE)
+[![Travis Build](https://travis-ci.com/mandulaj/PZEM-004T-v30.svg?branch=master)](https://travis-ci.com/mandulaj/PZEM-004T-v30)
+
+
 
 The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you can find the library [Here](https://github.com/olehs/PZEM004T) 
 
@@ -47,12 +50,9 @@ This module is an upgraded version of the PZEM-004T with frequency and power fac
 
 | MCU               | Hardware Serial    | Software Serial  | Not Tested | Examples                              | Notes                                                                          |
 |-------------------|:------------------:|:----------------:|:----------:|---------------------------------------|--------------------------------------------------------------------------------|
-|ATmega168 @ 8MHz   |                    |                  | X          |                                       |                                                                                | 
-|ATmega168 @ 16MHz  |                    |                  | X          | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
-|ATmega328 @ 8MHz   |                    |                  | X          |                                       |                                                                                | 
-|ATmega328 @ 16MHz  |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
-|ATmega2560 @ 8MHz  |                    |                  | X          |                                       |                                                                                | 
-|ATmega2560 @ 16MHz |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ATmega168          |                    |                  | X          | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ATmega328          |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ATmega2560         |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
 |ESP8266            |(:white_check_mark:)|                  |            |                                       | HW Serial conflicts with output Serial                                         | 
 |ESP32              |:heavy_check_mark:  | :x:              |            | [HardwareSerial][]                    | SW Serial not really needed as ESP32 has 3 HW serials with configurable pins   | 
 |STM32 Blue Pill    |                    |                  | X          |                                       |                                                                                | 
