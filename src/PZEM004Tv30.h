@@ -65,6 +65,7 @@ class PZEM004Tv30
 public:
 #if defined(PZEM004_SOFTSERIAL)
     /* This will be deprecated */
+    [[deprecated("Replaced by PZEM004Tv30(SoftwareSerial& port, uint8_t addr). Please pass the SoftwareSerial object instead: PZEM004Tv30(RX, TX)=>PZEM004Tv30(SWSerial)")]]
     PZEM004Tv30(uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR);
     
     /* SoftwareSerial version calls begin method */
@@ -79,11 +80,13 @@ public:
     PZEM004Tv30(HardwareSerial& port, uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR);
     
     // Deprecate passing pointer
+    [[deprecated("Replaced by PZEM004Tv30(HardwareSerial& port, uint8_t receivePin, uint8_t transmitPin, uint8_t addr). Please pass a reference instead of a pointer: PZEM004Tv30(&SerialX)=>PZEM004Tv30(SerialX)")]]
     PZEM004Tv30(HardwareSerial* port, uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR) : PZEM004Tv30(*port, receivePin, transmitPin, addr) {};
 #else
     PZEM004Tv30(HardwareSerial& port, uint8_t addr=PZEM_DEFAULT_ADDR);
     
     // Deprecate passing pointer
+    [[deprecated("Replaced by PZEM004Tv30(HardwareSerial& port, uint8_t addr). Please pass a reference instead of a pointer: PZEM004Tv30(&SerialX)=>PZEM004Tv30(SerialX)")]]
     PZEM004Tv30(HardwareSerial* port, uint8_t addr=PZEM_DEFAULT_ADDR) : PZEM004Tv30(*port, addr) {};
 #endif
     // Empty constructor for creating arrays
