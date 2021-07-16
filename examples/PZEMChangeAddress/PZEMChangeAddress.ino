@@ -24,9 +24,25 @@ Otherwise all connected modules will receive the same custom address.
  * For example the Arduino MEGA 2560
 */
 #if defined(ESP32)
-PZEM004Tv30 pzem(&Serial2, 16, 17);
+/*************************
+ *  ESP32 initialization
+ * ---------------------
+ * 
+ * The ESP32 HW Serial interface can be routed to any GPIO pin 
+ * Here we initialize the PZEM on Serial2 with RX/TX pins 16 and 17
+ */
+PZEM004Tv30 pzem(Serial2, 16, 17);
 #else
-PZEM004Tv30 pzem(&Serial2);
+/*************************
+ *  Arduino initialization
+ * ---------------------
+ * 
+ * Not all Arduino boards come with multiple HW Serial ports.
+ * Serial2 is for example available on the Arduino MEGA 2560 but not Arduino Uno!
+ * The ESP32 HW Serial interface can be routed to any GPIO pin 
+ * Here we initialize the PZEM on Serial2 with default pins
+ */
+PZEM004Tv30 pzem(Serial2);
 #endif
 
 /*******************************************

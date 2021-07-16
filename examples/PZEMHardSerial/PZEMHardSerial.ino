@@ -14,16 +14,43 @@ pins.
 
 #include <PZEM004Tv30.h>
 
-/* Hardware Serial2 is only available on certain boards.
- * For example the Arduino MEGA 2560
+/* 
 */
 #if defined(ESP32)
-PZEM004Tv30 pzem(&Serial2, 16, 17);
+/*************************
+ *  ESP32 initialization
+ * ---------------------
+ * 
+ * The ESP32 HW Serial interface can be routed to any GPIO pin 
+ * Here we initialize the PZEM on Serial2 with RX/TX pins 16 and 17
+ */
+PZEM004Tv30 pzem(Serial2, 16, 17);
+#elif defined(ESP8266)
+/*************************
+ *  ESP8266 initialization
+ * ---------------------
+ * 
+ * Not all Arduino boards come with multiple HW Serial ports.
+ * Serial2 is for example available on the Arduino MEGA 2560 but not Arduino Uno!
+ * The ESP32 HW Serial interface can be routed to any GPIO pin 
+ * Here we initialize the PZEM on Serial2 with default pins
+ */
+PZEM004Tv30 pzem(Serial1);
 #else
-PZEM004Tv30 pzem(&Serial2);
+/*************************
+ *  Arduino initialization
+ * ---------------------
+ * 
+ * Not all Arduino boards come with multiple HW Serial ports.
+ * Serial2 is for example available on the Arduino MEGA 2560 but not Arduino Uno!
+ * The ESP32 HW Serial interface can be routed to any GPIO pin 
+ * Here we initialize the PZEM on Serial2 with default pins
+ */
+PZEM004Tv30 pzem(Serial2);
 #endif
 
 void setup() {
+    // Debugging Serial port
     Serial.begin(115200);
 
     // Uncomment in order to reset the internal energy counter
@@ -31,7 +58,7 @@ void setup() {
 }
 
 void loop() {
-        
+    // Print the custom address of the PZEM
     Serial.print("Custom Address:");
     Serial.println(pzem.readAddress(), HEX);
 
