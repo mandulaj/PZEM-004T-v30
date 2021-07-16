@@ -303,7 +303,7 @@ bool PZEM004Tv30::setAddress(uint8_t addr)
  * Read address from the device memory
  * @return success
 */
-uint8_t PZEM004Tv30::readAddress(bool update = false)
+uint8_t PZEM004Tv30::readAddress(bool update)
 {
     static uint8_t response[7];
     uint8_t addr = 0;
