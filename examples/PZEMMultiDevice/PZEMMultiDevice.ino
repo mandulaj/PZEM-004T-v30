@@ -40,20 +40,50 @@ pzems[1].pf();
 #include <PZEM004Tv30.h>
 
 #define NUM_PZEMS 2
+
 PZEM004Tv30 pzems[NUM_PZEMS];
 
+/* ***************************************************************
+ * Uncomment USE_SOFTWARE_SERIAL in order to enable Softare serial
+ *
+ * Does not work for ESP32
+ *****************************************************************/
+//#define USE_SOFTWARE_SERIAL
+
+
+
+#if defined(USE_SOFTWARE_SERIAL) && defined(ESP32)
+    #error "Can not use SoftwareSerial with ESP32"
+#elif defined(USE_SOFTWARE_SERIAL)
+
+#include <SoftwareSerial.h>
+
+#define RX_PIN 12
+#define TX_PIN 13
+
+    SoftwareSerial pzemSWSerial(RX_PIN, TX_PIN);
+#endif
 
 void setup() {
     Serial.begin(115200);
 
-    /* Hardware Serial2 is only available on certain boards.
-    * For example the Arduino MEGA 2560
-    */
-    for(int i = 0; i < NUM_PZEMS; i++){
-#if defined(ESP32)
-        pzems[i] = PZEM004Tv30(&Serial2, 16, 17, 0x10 + i);
+    // For each PZEM, initialize it
+    for(int i = 0; i < NUM_PZEMS; i++)
+    {
+
+#if defined(USE_SOFTWARE_SERIAL)
+        // Initialize the PZEMs with Software Serial
+        pzems[i] = PZEM004Tv30(pzemSWSerial, 0x10 + i);
+#elif defined(ESP32)
+        // Initialize the PZEMs with Hardware Serial2 on RX/TX pins 16 and 17
+        pzems[i] = PZEM004Tv30(Serial2, 16, 17, 0x10 + i);
 #else
-        pzems[i] = PZEM004Tv30(&Serial2, 0x10 + i);
+        // Initialize the PZEMs with Hardware Serial2 on the default pins
+
+        /* Hardware Serial2 is only available on certain boards.
+        *  For example the Arduino MEGA 2560
+        */
+        pzems[i] = PZEM004Tv30(Serial2, 0x10 + i);
 #endif
     }
 }
@@ -63,6 +93,7 @@ void setup() {
 void loop() {
     // Print out the measured values from each PZEM module
     for(int i = 0; i < NUM_PZEMS; i++){
+        // Print the Address of the PZEM
         Serial.print("PZEM ");
         Serial.print(i);
         Serial.print(" - Address:");
