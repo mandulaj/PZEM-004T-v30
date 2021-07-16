@@ -49,29 +49,54 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define RESPONSE_SIZE 32
 #define READ_TIMEOUT 100
 
-#define PZEM_BAUD_RATE 9600
-
 #define INVALID_ADDRESS 0x00
 
 
+#if defined(PZEM004_SOFTSERIAL)
 /*!
  * PZEM004Tv30::PZEM004Tv30
  *
- * Software Serial constructor
+ * Software Serial constructor (WARNING: Will be deprecated)
  *
  * @param receivePin RX pin
  * @param transmitPin TX pin
  * @param addr Slave address of device
 */
-#if defined(PZEM004_SOFTSERIAL)
 PZEM004Tv30::PZEM004Tv30(uint8_t receivePin, uint8_t transmitPin, uint8_t addr)
 {
-    SoftwareSerial *port = new SoftwareSerial(receivePin, transmitPin);
-    port->begin(PZEM_BAUD_RATE);
-    this->_serial = port;
-    this->_isSoft = true;
-    init(addr);
+    localSWserial = new SoftwareSerial(receivePin, transmitPin); // We will need to clean up in destructor
+    localSWserial->begin(PZEM_BAUD_RATE);
+
+    init((Stream *)localSWserial, true, addr);
 }
+
+/*!
+ * PZEM004Tv30::PZEM004Tv30
+ *
+ * Software Serial constructor for SoftwareSerial instance
+ *
+ * @param port Software serial port instance
+ * @param addr Slave address of device
+*/
+PZEM004Tv30::PZEM004Tv30(SoftwareSerial& port, uint8_t addr)
+{
+    port.begin(PZEM_BAUD_RATE);
+    init((Stream *)&port, true, addr);
+}
+
+/*!
+ * PZEM004Tv30::PZEM004Tv30
+ *
+ * Software Serial constructor for Stream instance
+ *
+ * @param port Stream instance
+ * @param addr Slave address of device
+*/
+PZEM004Tv30::PZEM004Tv30(Stream& port, uint8_t addr)
+{
+    init(&port, true, addr);
+}
+
 #endif
 
 /*!
@@ -80,23 +105,24 @@ PZEM004Tv30::PZEM004Tv30(uint8_t receivePin, uint8_t transmitPin, uint8_t addr)
  * Hardware serial constructor
  *
  * @param port Hardware serial to use
+ * @param receivePin (Only ESP32) receive Pin to use
+ * @param transmitPin (Only ESP32) transmit Pin to use
  * @param addr Slave address of device
 */
 #if defined(ESP32)
-PZEM004Tv30::PZEM004Tv30(HardwareSerial* port, uint8_t receivePin, uint8_t transmitPin, uint8_t addr)
+
+PZEM004Tv30::PZEM004Tv30(HardwareSerial& port, uint8_t receivePin, uint8_t transmitPin, uint8_t addr)
 {
-    port->begin(PZEM_BAUD_RATE, SERIAL_8N1, receivePin, transmitPin);
-    this->_serial = port;
-    this->_isSoft = false;
-    init(addr);
+    port.begin(PZEM_BAUD_RATE, SERIAL_8N1, receivePin, transmitPin);
+    init((Stream *)&port, false, addr);
 }
 #else
-PZEM004Tv30::PZEM004Tv30(HardwareSerial* port, uint8_t addr)
+
+
+PZEM004Tv30::PZEM004Tv30(HardwareSerial& port, uint8_t addr)
 {
-    port->begin(PZEM_BAUD_RATE);
-    this->_serial = port;
-    this->_isSoft = false;
-    init(addr);
+    port.begin(PZEM_BAUD_RATE);
+    init((Stream *)&port, false, addr);
 }
 #endif
 
@@ -108,9 +134,13 @@ PZEM004Tv30::PZEM004Tv30(HardwareSerial* port, uint8_t addr)
 */
 PZEM004Tv30::~PZEM004Tv30()
 {
+    // TODO: Remove local SW serial
+    // This is not the correct way to do it. 
+    // Best solution would be to completely remove local SW serial instance and not deal with it.
 #if defined(PZEM004_SOFTSERIAL)
-    if(_isSoft)
-        delete (SoftwareSerial*)(this->_serial);
+    if(this->localSWserial != nullptr){
+        delete this->localSWserial;
+    }
 #endif
 }
 
@@ -368,10 +398,13 @@ bool PZEM004Tv30::getPowerAlarm()
  *
  * @return success
 */
-void PZEM004Tv30::init(uint8_t addr){
+void PZEM004Tv30::init(Stream* port, bool isSoft, uint8_t addr){
     if(addr < 0x01 || addr > 0xF8) // Sanity check of address
         addr = PZEM_DEFAULT_ADDR;
     _addr = addr;
+
+    this->_serial = port;
+    this->_isSoft = isSoft;
 
     // Set initial lastRed time so that we read right away
     _lastRead = 0;
@@ -482,11 +515,11 @@ bool PZEM004Tv30::resetEnergy(){
 */
 uint16_t PZEM004Tv30::recieve(uint8_t *resp, uint16_t len)
 {
-    #ifdef PZEM004_SOFTSERIAL
+      //* This has to only be enabled for Software serial
+    #if (defined(PZEM004_SOFTSERIAL) && (defined(__AVR__)) || defined(ESP8266))
         if(_isSoft)
             ((SoftwareSerial *)_serial)->listen(); // Start software serial listen
     #endif
-
     unsigned long startTime = millis(); // Start time for Timeout
     uint8_t index = 0; // Bytes we have read
     while((index < len) && (millis() - startTime < READ_TIMEOUT))

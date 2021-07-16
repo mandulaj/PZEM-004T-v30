@@ -43,8 +43,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #include "WProgram.h"
 #endif
 
+/* Disable Software Serial completely by defining: */
 // #define PZEM004_NO_SWSERIAL
-#if (not defined(PZEM004_NO_SWSERIAL)) && (defined(__AVR__) || defined(ESP8266) && (not defined(ESP32)))
+
+#if (not defined(PZEM004_NO_SWSERIAL) && (defined(__AVR__) || defined(ESP8266)) && not defined(ESP32))
+/* Software serial is only available for AVRs and ESP8266 */
 #define PZEM004_SOFTSERIAL
 #endif
 
@@ -53,21 +56,35 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #endif
 
 
-#define PZEM_DEFAULT_ADDR    0xF8
+#define PZEM_DEFAULT_ADDR   0xF8
+#define PZEM_BAUD_RATE      9600
 
 
 class PZEM004Tv30
 {
 public:
 #if defined(PZEM004_SOFTSERIAL)
+    /* This will be deprecated */
     PZEM004Tv30(uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR);
+    
+    /* SoftwareSerial version calls begin method */
+    /* Stream version doesn't */
+    PZEM004Tv30(SoftwareSerial& port, uint8_t addr=PZEM_DEFAULT_ADDR);
+    PZEM004Tv30(Stream& port, uint8_t addr=PZEM_DEFAULT_ADDR);
+
 #endif
 
 #if defined(ESP32)
     /* ESP32 Hardware serial interface requires the receive and transmit pin specified */
-    PZEM004Tv30(HardwareSerial* port, uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR);
+    PZEM004Tv30(HardwareSerial& port, uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR);
+    
+    // Deprecate passing pointer
+    PZEM004Tv30(HardwareSerial* port, uint8_t receivePin, uint8_t transmitPin, uint8_t addr=PZEM_DEFAULT_ADDR) : PZEM004Tv30(*port, receivePin, transmitPin, addr) {};
 #else
-    PZEM004Tv30(HardwareSerial* port, uint8_t addr=PZEM_DEFAULT_ADDR);
+    PZEM004Tv30(HardwareSerial& port, uint8_t addr=PZEM_DEFAULT_ADDR);
+    
+    // Deprecate passing pointer
+    PZEM004Tv30(HardwareSerial* port, uint8_t addr=PZEM_DEFAULT_ADDR) : PZEM004Tv30(*port, addr) {};
 #endif
     // Empty constructor for creating arrays
     PZEM004Tv30(){};
@@ -100,6 +117,11 @@ private:
     Stream* _serial; // Serial interface
     bool _isSoft;    // Is serial interface software
 
+    // TODO: if we remove the Local SW serial handling, we can get rid of this trash
+    #if defined(PZEM004_SOFTSERIAL)
+    SoftwareSerial* localSWserial = nullptr; // Pointer to the Local SW serial object
+    #endif
+
     uint8_t _addr;   // Device address
 
     bool _isConnected; // Flag set on successful communication
@@ -118,7 +140,7 @@ private:
 
 
 
-    void init(uint8_t addr); // Init common to all constructors
+    void init(Stream* port, bool isSoft, uint8_t addr); // Init common to all constructors
 
     bool updateValues();    // Get most up to date values from device registers and cache them
     uint16_t recieve(uint8_t *resp, uint16_t len); // Receive len bytes into a buffer

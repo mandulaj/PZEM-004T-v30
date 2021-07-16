@@ -10,15 +10,25 @@ serial interface will be used for communication with the module.
 */
 
 #include <PZEM004Tv30.h>
+#include <SoftwareSerial.h>
+
+#if defined(ESP32)
+    #error "Software Serial is not supported on the ESP32"
+#endif
 
 /* Use software serial for the PZEM
- * Pin 11 Rx (Connects to the Tx pin on the PZEM)
- * Pin 12 Tx (Connects to the Rx pin on the PZEM)
+ * Pin 12 Rx (Connects to the Tx pin on the PZEM)
+ * Pin 13 Tx (Connects to the Rx pin on the PZEM)
 */
-PZEM004Tv30 pzem(11, 12);
+#define RX_PIN 12
+#define TX_PIN 13
+
+SoftwareSerial pzemSWSerial(RX_PIN, TX_PIN);
+PZEM004Tv30 pzem(pzemSWSerial);
 
 void setup() {
-  Serial.begin(115200);
+    /* Debugging serial */
+    Serial.begin(115200);
 }
 
 void loop() {
@@ -56,9 +66,7 @@ void loop() {
         Serial.print("Energy: ");       Serial.print(energy,3);     Serial.println("kWh");
         Serial.print("Frequency: ");    Serial.print(frequency, 1); Serial.println("Hz");
         Serial.print("PF: ");           Serial.println(pf);
-
     }
-
 
     Serial.println();
     delay(2000);
