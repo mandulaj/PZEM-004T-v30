@@ -34,5 +34,7 @@ jobs:
         pip install platformio
         pio update
     - name: Build with PlatformIO
+      env: 
+        PLATFORMIO_CI_SRC: ${{ matrix.example }}
       run: |
         pio ci -l ./ -c ${{ matrix.example }}/platformio.ini
