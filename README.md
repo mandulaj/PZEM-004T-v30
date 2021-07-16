@@ -50,9 +50,9 @@ This module is an upgraded version of the PZEM-004T with frequency and power fac
 | MCU               | Hardware Serial    | Software Serial  | Not Tested | Examples                              | Notes                                                                          |
 |-------------------|:------------------:|:----------------:|:----------:|---------------------------------------|--------------------------------------------------------------------------------|
 |ATmega168          |                    |                  | X          | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
-|ATmega328          |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ATmega328          |(:white_check_mark:)|:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] | HW Serial conflicts with Debug output. It can be used however without having any Serial Console output | 
 |ATmega2560         |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
-|ESP8266            |(:white_check_mark:)|                  |            |                                       | HW Serial conflicts with output Serial                                         | 
+|ESP8266            |(:white_check_mark:)|:heavy_check_mark:|            | [SoftwareSerial][]                    | HW Serial conflicts with Debug output Serial                                         | 
 |ESP32              |:heavy_check_mark:  | :x:              |            | [HardwareSerial][]                    | SW Serial not really needed as ESP32 has 3 HW serials with configurable pins   | 
 |STM32 Blue Pill    |                    |                  | X          |                                       |                                                                                | 
 

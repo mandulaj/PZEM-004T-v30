@@ -14,8 +14,17 @@ pins.
 
 #include <PZEM004Tv30.h>
 
-/* 
-*/
+
+#if !defined(PZEM_RX_PIN) && !defined(PZEM_TX_PIN)
+#define PZEM_RX_PIN 16
+#define PZEM_TX_PIN 17
+#endif
+
+#if !defined(PZEM_SERIAL)
+#define PZEM_SERIAL Serial2
+#endif
+
+
 #if defined(ESP32)
 /*************************
  *  ESP32 initialization
@@ -24,7 +33,7 @@ pins.
  * The ESP32 HW Serial interface can be routed to any GPIO pin 
  * Here we initialize the PZEM on Serial2 with RX/TX pins 16 and 17
  */
-PZEM004Tv30 pzem(Serial2, 16, 17);
+PZEM004Tv30 pzem(PZEM_SERIAL, PZEM_RX_PIN, PZEM_TX_PIN);
 #elif defined(ESP8266)
 /*************************
  *  ESP8266 initialization
@@ -35,7 +44,7 @@ PZEM004Tv30 pzem(Serial2, 16, 17);
  * The ESP32 HW Serial interface can be routed to any GPIO pin 
  * Here we initialize the PZEM on Serial2 with default pins
  */
-PZEM004Tv30 pzem(Serial1);
+//PZEM004Tv30 pzem(Serial1);
 #else
 /*************************
  *  Arduino initialization
@@ -46,7 +55,7 @@ PZEM004Tv30 pzem(Serial1);
  * The ESP32 HW Serial interface can be routed to any GPIO pin 
  * Here we initialize the PZEM on Serial2 with default pins
  */
-PZEM004Tv30 pzem(Serial2);
+PZEM004Tv30 pzem(PZEM_SERIAL);
 #endif
 
 void setup() {
