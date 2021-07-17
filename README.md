@@ -26,7 +26,7 @@ The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you
 Make sure the device is connected to the AC power! The 5V only power the optocouplers, not the actual chip. Also please be safe, AC is dangerous! If you don't know what you are doing, you can **die**! You are responsible for your own stupidity. **So don't be stupid.**
 
 
-## The module
+# The module
 <img alt="PZEM-004T v3.0 Image" src="https://innovatorsguru.com/wp-content/uploads/2019/06/PZEM-004-module.jpg" width="200" align="right">
 
 This module is an upgraded version of the PZEM-004T with frequency and power factor measurement features, available at the usual places. It communicates using a TTL interface over a Modbus-RTU like communication protocol but is incompatible with the older [@olehs](https://github.com/olehs) library found here: [https://github.com/olehs/PZEM004T](https://github.com/olehs/PZEM004T). I would like to thank [@olehs](https://github.com/olehs) for the great library which inspired me to write this one.
@@ -47,20 +47,22 @@ This module is an upgraded version of the PZEM-004T with frequency and power fac
 
 ## Compatibility
 
-| MCU               | Hardware Serial    | Software Serial  | Not Tested | Examples                              | Notes                                                                          |
-|-------------------|:------------------:|:----------------:|:----------:|---------------------------------------|--------------------------------------------------------------------------------|
-|ATmega168          |                    |                  | X          | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
-|ATmega328          |(:white_check_mark:)|:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] | HW Serial conflicts with Debug output. It can be used however without having any Serial Console output | 
-|ATmega2560         |:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
-|ESP8266            |(:white_check_mark:)|:heavy_check_mark:|            | [SoftwareSerial][]                    | HW Serial conflicts with Debug output Serial                                         | 
-|ESP32              |:heavy_check_mark:  | :x:              |            | [HardwareSerial][]                    | SW Serial not really needed as ESP32 has 3 HW serials with configurable pins   | 
-|STM32 Blue Pill    |                    |                  | X          |                                       |                                                                                | 
+| MCU                       | Hardware Serial    | Software Serial  | Not Tested | Examples                              | Notes                                                                          |
+|---------------------------|:------------------:|:----------------:|:----------:|---------------------------------------|--------------------------------------------------------------------------------|
+|ATmega168                  |                    |                  | X          | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ATmega328 (`Arduino Uno`)  |(:white_check_mark:)|:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] | HW Serial conflicts with Debug output. It can be used however without having any Serial Console output | 
+|ATmega2560 (`Arduino Mega`)|:heavy_check_mark:  |:heavy_check_mark:|            | [HardwareSerial][] [SoftwareSerial][] |                                                                                | 
+|ESP8266                    |(:white_check_mark:)|:heavy_check_mark:|            | [SoftwareSerial][]                    | HW Serial conflicts with Debug output Serial                                         | 
+|ESP32                      |:heavy_check_mark:  | :x:              |            | [HardwareSerial][]                    | SW Serial not really needed as ESP32 has 3 HW serials with configurable pins   | 
+|STM32 BluePill             |                    |                  | X          |                                       |                                                                                | 
 
 [HardwareSerial]: examples/PZEMHardSerial/PZEMHardSerial.ino
 [SoftwareSerial]: examples/PZEMSoftwareSerial/PZEMSoftwareSerial.ino
 
-## Examples
-### Hardware Serial
+# Examples
+## Hardware Serial
+This example uses Hardware `Serial2` in order to interface with the PZEM module. Note that not all MCUs feature multiple Serial ports. It won't for example work on the `Arduino Uno`.  
+
 ```c++
 
 #include <PZEM004Tv30.h>
@@ -123,7 +125,19 @@ void loop() {
     delay(2000);
 }
 ```
-### Software Serial
+### Output:
+```
+Custom Address:10
+Voltage: 229.60V
+Current: 0.10A
+Power: 4.50W
+Energy: 7.368kWh
+Frequency: 50.0Hz
+PF: 0.19
+```
+
+
+## Software Serial
 Using the [`<SoftwareSerial.h>`](https://www.arduino.cc/en/Reference/softwareSerial) library...
 ```c++
 #include <PZEM004Tv30.h>
@@ -133,13 +147,13 @@ Using the [`<SoftwareSerial.h>`](https://www.arduino.cc/en/Reference/softwareSer
  * Pin 11 Rx (Connects to the Tx pin on the PZEM)
  * Pin 12 Tx (Connects to the Rx pin on the PZEM)
 */
+
+SoftwareSerial pzemSWSerial(11, 12);
 PZEM004Tv30 pzem;
 
 void setup() {
   Serial.begin(115200);
   
-  SoftwareSerial pzemSWSerial(11, 12);
-
   pzem = PZEM004Tv30(pzemSWSerial);
 }
 
@@ -185,10 +199,18 @@ void loop() {
     delay(2000);
 }
 ```
+### Output:
+```
+Custom Address:11
+Voltage: 229.60V
+Current: 0.10A
+Power: 4.50W
+Energy: 7.368kWh
+Frequency: 50.0Hz
+PF: 0.19
+```
 
-
-
-## Contributing
+# Contributing
  * [@mandulaj](https://github.com/mandulaj)
  * [@FXeio](https://github.com/FXeio)
  * [@ste94pz](https://github.com/ste94pz)
