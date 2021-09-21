@@ -381,8 +381,7 @@ void PZEM004Tv30::init(Stream* port, bool isSoft, uint8_t addr){
     this->_isSoft = isSoft;
 
     // Set initial lastRed time so that we read right away
-    _lastRead = 0;
-    _lastRead -= UPDATE_TIME;
+    _lastRead = -1;
 
     _isConnected = false; // We have not received anything yet...
 }
@@ -401,7 +400,10 @@ bool PZEM004Tv30::updateValues()
     static uint8_t response[25];
 
     // If we read before the update time limit, do not update
-    if(_lastRead + UPDATE_TIME > millis()){
+    if( (unsigned long)(millis() - _lastRead)  >  UPDATE_TIME){
+        // Record current time as _lastRead
+        _lastRead = millis();
+    } else {
         return true;
     }
 
@@ -446,8 +448,7 @@ bool PZEM004Tv30::updateValues()
     _currentValues.alarms =  ((uint32_t)response[21] << 8 | // Raw alarm value
                               (uint32_t)response[22]);
 
-    // Record current time as _lastRead
-    _lastRead = millis();
+    
 
     return true;
 }
