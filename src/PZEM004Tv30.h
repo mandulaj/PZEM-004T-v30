@@ -46,9 +46,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 /* Disable Software Serial completely by defining: */
 // #define PZEM004_NO_SWSERIAL
 
-#if (not defined(PZEM004_NO_SWSERIAL) && (defined(__AVR__) || defined(ESP8266)) && not defined(ESP32))
-/* Software serial is only available for AVRs and ESP8266 */
-#define PZEM004_SOFTSERIAL
+#ifndef PZEM004_NO_SWSERIAL
+ /* Software serial is only available for AVRs and ESP8266 */
+ #if defined(__AVR__) || defined(ESP8266)
+ #define PZEM004_SOFTSERIAL
+ #endif
 #endif
 
 #if defined(PZEM004_SOFTSERIAL)
