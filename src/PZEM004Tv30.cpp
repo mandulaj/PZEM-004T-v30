@@ -517,7 +517,7 @@ bool PZEM004Tv30::sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check
 uint16_t PZEM004Tv30::receive(uint8_t *resp, uint16_t len)
 {
       //* This has to only be enabled for Software serial
-    #if (defined(PZEM004_SOFTSERIAL) && (defined(__AVR__)) || defined(ESP8266))
+    #if defined(PZEM004_SOFTSERIAL)
         if(_isSoft)
             ((SoftwareSerial *)_serial)->listen(); // Start software serial listen
     #endif
