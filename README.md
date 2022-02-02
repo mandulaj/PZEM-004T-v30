@@ -1,10 +1,12 @@
 PZEM-004T v3.0
 ================
-Arduino library for Peacefair **PZEM-004T-10A** and [**PZEM-004T-100A v3.0**](https://innovatorsguru.com/pzem-004t-v3/) Energy monitor using the ModBUS interface.
-
+__[LINKS & REFs](LINKS.md)__ | 
 [![GitHub issues](https://img.shields.io/github/issues/mandulaj/PZEM-004T-v30)](https://github.com/avaldebe/mandulaj/PZEM-004T-v30)
 [![GitHub license](https://img.shields.io/github/license/mandulaj/PZEM-004T-v30)](https://github.com/mandulaj/PZEM-004T-v30/blob/master/LICENSE)
 [![PlatformIO Build](https://github.com/mandulaj/PZEM-004T-v30/actions/workflows/platformio_build.yml/badge.svg)](https://github.com/mandulaj/PZEM-004T-v30/actions/workflows/platformio_build.yml)
+
+
+Arduino library for Peacefair **PZEM-004T-10A** and [**PZEM-004T-100A v3.0**](https://innovatorsguru.com/pzem-004t-v3/) Energy monitor using the ModBUS interface.
 
 
 The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you can find the library [Here](https://github.com/olehs/PZEM004T) 
@@ -209,6 +211,9 @@ Energy: 7.368kWh
 Frequency: 50.0Hz
 PF: 0.19
 ```
+
+# Links
+Check [LINKS & REFs](LINKS.md) page for additional DOC's and related links
 
 # Contributing
  * [@mandulaj](https://github.com/mandulaj)
