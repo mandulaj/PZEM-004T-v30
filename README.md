@@ -1,9 +1,12 @@
 PZEM-004T v3.0
 ================
-__[LINKS & REFs](LINKS.md)__ | 
 [![GitHub issues](https://img.shields.io/github/issues/mandulaj/PZEM-004T-v30)](https://github.com/avaldebe/mandulaj/PZEM-004T-v30)
 [![GitHub license](https://img.shields.io/github/license/mandulaj/PZEM-004T-v30)](https://github.com/mandulaj/PZEM-004T-v30/blob/master/LICENSE)
 [![PlatformIO Build](https://github.com/mandulaj/PZEM-004T-v30/actions/workflows/platformio_build.yml/badge.svg)](https://github.com/mandulaj/PZEM-004T-v30/actions/workflows/platformio_build.yml)
+[![Buy me a Beer](https://img.shields.io/badge/Buy%20me%20a%20Beer-%245-orange)](https://www.buymeacoffee.com/mandula)
+
+
+__[LINKS & REFs](LINKS.md)__
 
 
 Arduino library for Peacefair **PZEM-004T-10A** and [**PZEM-004T-100A v3.0**](https://innovatorsguru.com/pzem-004t-v3/) Energy monitor using the ModBUS interface.
@@ -15,6 +18,7 @@ The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you
  * Measures Voltage, Current, Power, Energy, **Power Factor** and **Frequency** (New in Version 3.0)
  * 247 unique programmable slave addresses
     * Enables multiple slaves to use the same Serial interface [PZEM MulitDevice Demo](examples/PZEMMultiDevice/PZEMMultiDevice.ino)
+      (May need to use external transistors to drive multiple devices on one bus due to GPIO current limitations)
  * Internal Energy counter up to 9999.99kWh
 
 ## Other features
@@ -25,7 +29,9 @@ The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you
 
 
 ### Common issue:
-Make sure the device is connected to the AC power! The 5V only power the optocouplers, not the actual chip. Also please be safe, AC is dangerous! If you don't know what you are doing, you can **die**! You are responsible for your own stupidity. **So don't be stupid.**
+* Make sure the device is connected to the AC power! The 5V pin only powers the optocouplers, not the actual chip. 
+* If you are not reading any data, try swapping the RX/TX wires.
+* Please be safe, AC is dangerous! If you don't know what you are doing, you can **die**! You are responsible for your own safety.
 
 
 # The module
@@ -216,6 +222,7 @@ PF: 0.19
 Check [LINKS & REFs](LINKS.md) page for additional DOC's and related links
 
 # Contributing
+Many thanks to all the other contributors that add new features, find bugs and generally keep this project afloa.
  * [@mandulaj](https://github.com/mandulaj)
  * [@FXeio](https://github.com/FXeio)
  * [@ste94pz](https://github.com/ste94pz)
