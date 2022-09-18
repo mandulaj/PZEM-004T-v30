@@ -17,7 +17,7 @@ The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you
 ## Main features
  * Measures Voltage, Current, Power, Energy, **Power Factor** and **Frequency** (New in Version 3.0)
  * 247 unique programmable slave addresses
-    * Enables multiple slaves to use the same Serial interface [PZEM MulitDevice Demo](examples/PZEMMultiDevice/PZEMMultiDevice.ino)
+    * Enables multiple slaves to use the same Serial interface [PZEM MultiDevice Demo](examples/PZEMMultiDevice/PZEMMultiDevice.ino)
       (May need to use external transistors to drive multiple devices on one bus due to GPIO current limitations)
  * Internal Energy counter up to 9999.99kWh
 
