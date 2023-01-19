@@ -14,24 +14,29 @@ Arduino library for Peacefair **PZEM-004T-10A** and [**PZEM-004T-100A v3.0**](ht
 
 The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you can find the library [Here](https://github.com/olehs/PZEM004T) 
 
-## Main features
+### Main features
  * Measures Voltage, Current, Power, Energy, **Power Factor** and **Frequency** (New in Version 3.0)
  * 247 unique programmable slave addresses
     * Enables multiple slaves to use the same Serial interface [PZEM MultiDevice Demo](examples/PZEMMultiDevice/PZEMMultiDevice.ino)
       (May need to use external transistors to drive multiple devices on one bus due to GPIO current limitations)
  * Internal Energy counter up to 9999.99kWh
 
-## Other features
+
+
+## Common issues: READ FIRST BEFORE OPENING NEW ISSUE!
+* Make sure the PZEM device is **connected to the 230V AC power**! The 5V pin only powers the optocouplers, not the actual chip. 
+* Make sure the **5V and GND are BOTH connected**! They are essential for the optocouplers!
+* If you are getting `NaN`s and only the TX LED is blinking, try **swapping the RX/TX wires**.
+* Make sure you are using the correct custom address (change with [PZEMChangeAddress](https://github.com/mandulaj/PZEM-004T-v30/tree/master/examples/PZEMChangeAddress)) or you are using the default address `PZEM_DEFAULT_ADDR` = `0xF8` (only works for 1 device on ModBus)
+* If you want to use multiple devices on the same ModBus, please set a custom address for each and use [PZEMMultiDevice](https://github.com/mandulaj/PZEM-004T-v30/blob/master/examples/PZEMMultiDevice/PZEMMultiDevice.ino)
+* Please be safe, AC is dangerous! If you don't know what you are doing, you can **die**! You are responsible for your own safety.
+
+
+### Other features
   * Over power alarm
   * Energy counter reset
   * CRC16 checksum
   * Better, but not perfect mains isolation
-
-
-### Common issue:
-* Make sure the device is connected to the AC power! The 5V pin only powers the optocouplers, not the actual chip. 
-* If you are not reading any data, try swapping the RX/TX wires.
-* Please be safe, AC is dangerous! If you don't know what you are doing, you can **die**! You are responsible for your own safety.
 
 
 # The module
