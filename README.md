@@ -29,6 +29,7 @@ The Version 3.0 PZEM is an upgraded version of the older PZEM-004T for which you
 * If you are getting `NaN`s and only the TX LED is blinking, try **swapping the RX/TX wires**.
 * Make sure you are using the correct custom address (change with [PZEMChangeAddress](https://github.com/mandulaj/PZEM-004T-v30/tree/master/examples/PZEMChangeAddress)) or you are using the default address `PZEM_DEFAULT_ADDR` = `0xF8` (only works for 1 device on ModBus)
 * If you want to use multiple devices on the same ModBus, please set a custom address for each and use [PZEMMultiDevice](https://github.com/mandulaj/PZEM-004T-v30/blob/master/examples/PZEMMultiDevice/PZEMMultiDevice.ino)
+* If the current is much higher than you would expect (eg. 0.5A for a 60W device), don't panic, welcome to the world of AC! You are probably dealing with a device with bad powerfactor <1. In such cases the classic `P=V*I` does not apply. You can read more about this here: [Power Factor](https://en.wikipedia.org/wiki/Power_factor)
 * Please be safe, AC is dangerous! If you don't know what you are doing, you can **die**! You are responsible for your own safety.
 
 
