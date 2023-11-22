@@ -94,7 +94,7 @@ void setup() {
     Serial.begin(115200);
 
     // Uncomment in order to reset the internal energy counter
-    // pzem.resetEnergy()
+    // pzem.resetEnergy();
 }
 
 void loop() {
