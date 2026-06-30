@@ -25,7 +25,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 #define REG_VOLTAGE     0x0000
 #define REG_CURRENT_L   0x0001
-#define REG_CURRENT_H   0X0002
+#define REG_CURRENT_H   0x0002
 #define REG_POWER_L     0x0003
 #define REG_POWER_H     0x0004
 #define REG_ENERGY_L    0x0005
@@ -35,7 +35,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 #define REG_ALARM       0x0009
 
 #define CMD_RHR         0x03
-#define CMD_RIR         0X04
+#define CMD_RIR         0x04
 #define CMD_WSR         0x06
 #define CMD_CAL         0x41
 #define CMD_REST        0x42
@@ -275,7 +275,7 @@ bool PZEM004Tv30::setAddress(uint8_t addr)
         return false;
 
     // Write the new address to the address register
-    if(!sendCmd8(CMD_WSR, WREG_ADDR, addr, true))
+    if(!sendCmd8(CMD_WSR, WREG_ADDR, addr, true, 0xF8))
         return false;
 
     _addr = addr; // If successful, update the current slave address
@@ -294,7 +294,7 @@ uint8_t PZEM004Tv30::readAddress(bool update)
     static uint8_t response[7];
     uint8_t addr = 0;
     // Read 1 register
-    if (!sendCmd8(CMD_RHR, WREG_ADDR, 0x01, false))
+    if (!sendCmd8(CMD_RHR, WREG_ADDR, 0x01, false, 0xF8))
         return INVALID_ADDRESS;
 
 
@@ -466,15 +466,12 @@ bool PZEM004Tv30::updateValues()
  *
  * @return success
 */
-bool PZEM004Tv30::sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check, uint16_t slave_addr){
+bool PZEM004Tv30::sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check, uint8_t slave_addr){
     uint8_t sendBuffer[8]; // Send buffer
     uint8_t respBuffer[8]; // Response buffer (only used when check is true)
 
-    if((slave_addr == 0xFFFF) ||
-       (slave_addr < 0x01) ||
-       (slave_addr > 0xF7)){
+    if(slave_addr > 0xF8)
         slave_addr = _addr;
-    }
 
     sendBuffer[0] = slave_addr;                   // Set slave address
     sendBuffer[1] = cmd;                     // Set command
