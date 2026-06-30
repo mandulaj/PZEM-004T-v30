@@ -471,7 +471,7 @@ bool PZEM004Tv30::sendCmd8(uint8_t cmd, uint16_t rAddr, uint16_t val, bool check
     uint8_t respBuffer[8]; // Response buffer (only used when check is true)
 
     if((slave_addr == 0xFFFF) ||
-       (slave_addr < 0x01) ||
+       //(slave_addr < 0x01) ||
        (slave_addr > 0xF7)){
         slave_addr = _addr;
     }
